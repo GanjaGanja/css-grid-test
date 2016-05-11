@@ -1,0 +1,84 @@
+@import "../../node_modules/normalize.less/normalize.less";
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+/* Container */
+.area {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Container: Media queries */
+@media (min-width: 768px) {
+    .area { width: 750px; }   
+}
+@media (min-width: 992px) {
+    .area { width: 970px; }
+}
+@media (min-width: 1200px) {
+    .area { width: 1170px; }
+}
+
+/* Row */
+.row:before,
+.row:after {
+    content: " ";
+    display: table;
+}
+.row:after {
+    clear: both;
+}
+
+/* --- DEMO DELETE -------------------------------------------------------------- */
+.col-demo {
+    padding: 15px;
+    background-color: #f5f5f5;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+
+
+/* Total columns = 12 */
+@totalCols: 12;
+
+
+
+ // Columns grid styles generator 
+.columnsGridGen (@col-suffix, @i: 1) when (@i <= @totalCols) {
+    .col-@{col-suffix}-@{i} {
+        position: relative;
+        float: left;
+    }
+    .columnsGridGen(@col-suffix, @i + 1);
+}
+.columnsGridGen(xs);
+.columnsGridGen(sm);
+.columnsGridGen(md);
+.columnsGridGen(lg);
+
+
+
+ // Columns width generator 
+.colWidthGen (@col-suffix, @i: 1) when (@i <= @totalCols) {
+    .col-@{col-suffix}-@{i} {
+        width: 100% / 12 * @i;
+    }
+    .colWidthGen(@col-suffix, @i + 1);
+}
+
+/* ExtraSmall (screen < 768px) */
+.colWidthGen(xs);
+
+/* Small (screen > 768px) */
+@media (min-width: 768px) { .colWidthGen(sm); }
+
+/* Medium (screen > 992px) */
+@media (min-width: 992px) { .colWidthGen(md); }
+
+/* Large (screen > 1200px) */
+@media (min-width: 1200px) { .colWidthGen(lg); }
